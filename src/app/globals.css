@@ -1,0 +1,51 @@
+:root {
+  --color-gold: #d4af37;
+  --color-gold-light: #f3e5ab;
+  --color-gold-dark: #aa8c2c;
+  
+  --color-bg-dark: #0a0a0a;
+  --color-bg-panel: #1a1a1a;
+  --color-bg-hover: #2a2a2a;
+  
+  --color-text-main: #ffffff;
+  --color-text-muted: #a0a0a0;
+  
+  --color-border: #333333;
+  
+  /* Status Colors */
+  --status-available: #ffffff;
+  --status-occupied: #007bff;
+  --status-cleaning: #ffc107;
+  --status-maintenance: #dc3545;
+
+  --font-heading: var(--font-playfair);
+  --font-body: var(--font-montserrat);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-main);
+  font-family: var(--font-body), sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), serif;
+  margin-top: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}

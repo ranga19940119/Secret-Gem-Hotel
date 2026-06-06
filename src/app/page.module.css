@@ -1,0 +1,156 @@
+.homeContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.heroSection {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.9)), url('https://images.unsplash.com/photo-1542314831-c6a4d14d837e?auto=format&fit=crop&q=80');
+  background-size: cover;
+  background-position: center;
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 4rem;
+  color: var(--color-gold);
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: fadeInDown 1s ease-out;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: var(--color-gold-light);
+  max-width: 600px;
+  margin-bottom: 40px;
+  animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+.bookButton {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  background-color: transparent;
+  color: var(--color-gold);
+  border: 2px solid var(--color-gold);
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  animation: fadeIn 1s ease-out 1s both;
+}
+
+.bookButton:hover {
+  background-color: var(--color-gold);
+  color: var(--color-bg-dark);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.featuresSection {
+  padding: 80px 20px;
+  background-color: var(--color-bg-panel);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  color: var(--color-gold);
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.featureCard {
+  background-color: var(--color-bg-dark);
+  border: 1px solid var(--color-border);
+  padding: 40px 30px;
+  text-align: center;
+  border-radius: 8px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-10px);
+  border-color: var(--color-gold);
+}
+
+.featureIcon {
+  font-size: 3rem;
+  color: var(--color-gold);
+  margin-bottom: 20px;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.featureText {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 30px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--color-gold);
+  font-weight: bold;
+}
+
+.navLinks {
+  display: flex;
+  gap: 40px;
+}
+
+.navLink {
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  transition: color 0.3s;
+}
+
+.navLink:hover {
+  color: var(--color-gold);
+}

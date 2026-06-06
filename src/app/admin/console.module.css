@@ -1,0 +1,100 @@
+.consoleContainer {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+}
+
+.leftSidebar {
+  width: 200px;
+  background-color: var(--color-bg-panel);
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+}
+
+.roomGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  align-content: start;
+}
+
+.roomCard {
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 15px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.roomCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border-color: var(--color-gold);
+}
+
+.roomAvailable {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.roomOccupied {
+  background-color: var(--status-occupied);
+  color: #ffffff;
+  border: none;
+}
+
+.roomMaintenance {
+  background-color: var(--status-maintenance);
+  color: #ffffff;
+}
+
+.roomHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.roomNumber {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.roomType {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.rightSidebar {
+  width: 250px;
+  background-color: var(--color-bg-panel);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+}
+
+.filterLegend {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
