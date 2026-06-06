@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './console.module.css';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 // Define the Room type for our component
 type RoomWithGuest = {
   id: string;
