@@ -2,6 +2,10 @@ import React from 'react';
 import styles from './console.module.css';
 import prisma from '@/lib/prisma';
 import AddReservationForm from '@/components/AddReservationForm';
+import AddFloorForm from '@/components/AddFloorForm';
+import AddRoomForm from '@/components/AddRoomForm';
+import RoomCardInteractive from '@/components/RoomCardInteractive';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,14 +16,22 @@ type RoomWithGuest = {
   type: string;
   status: string;
   guest?: string | null;
+  checkoutStatus?: 'SOON' | 'OVERDUE' | null;
 };
 
 // Next.js App Router Server Component
-export default async function AdminConsole() {
+export default async function AdminConsole({ searchParams }: { searchParams: { floor?: string } }) {
   // Fetch real data from SQLite database
   let roomsData: any[] = [];
+  let floorsData: any[] = [];
   try {
+    floorsData = await prisma.floor.findMany({ orderBy: { level: 'asc' } });
+    
+    // Filter by floor if selected in URL
+    const whereClause = searchParams.floor ? { floorId: searchParams.floor } : {};
+
     roomsData = await prisma.room.findMany({
+      where: whereClause,
       orderBy: { roomNumber: 'asc' },
       include: {
         reservations: {
@@ -44,20 +56,44 @@ export default async function AdminConsole() {
   // Calculate status
   const rooms: RoomWithGuest[] = roomsData.map(room => {
     const activeRes = room.reservations[0];
+    let checkoutStatus: 'SOON' | 'OVERDUE' | null = null;
+    
+    if (activeRes) {
+      const now = new Date();
+      const checkoutDate = new Date(activeRes.checkOut);
+      const hoursUntilCheckout = (checkoutDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+      
+      if (hoursUntilCheckout < 0) {
+        checkoutStatus = 'OVERDUE';
+      } else if (hoursUntilCheckout <= 24) {
+        checkoutStatus = 'SOON';
+      }
+    }
+
     return {
       ...room,
       status: activeRes ? 'OCCUPIED' : room.status,
-      guest: activeRes ? activeRes.guestName : null
+      guest: activeRes ? activeRes.guestName : null,
+      checkoutStatus
     };
   });
 
   return (
     <div className={styles.consoleContainer}>
       <aside className={styles.leftSidebar}>
-        <div style={{ padding: '10px', backgroundColor: '#007bff', color: 'white', borderRadius: '4px', marginBottom: '10px' }}>
-          All Floors
-        </div>
-        <div style={{ padding: '10px', cursor: 'pointer' }}>1st Floor</div>
+        <AddFloorForm />
+        <Link href="/admin" style={{ display: 'block', textDecoration: 'none' }}>
+          <div style={{ padding: '10px', backgroundColor: !searchParams.floor ? '#007bff' : 'transparent', color: !searchParams.floor ? 'white' : 'var(--color-text-main)', borderRadius: '4px', marginBottom: '5px' }}>
+            All Floors
+          </div>
+        </Link>
+        {floorsData.map(floor => (
+          <Link key={floor.id} href={`/admin?floor=${floor.id}`} style={{ display: 'block', textDecoration: 'none' }}>
+            <div style={{ padding: '10px', cursor: 'pointer', borderBottom: '1px solid var(--color-border)', backgroundColor: searchParams.floor === floor.id ? 'rgba(212,175,55,0.2)' : 'transparent', color: searchParams.floor === floor.id ? 'var(--color-gold)' : 'inherit' }}>
+              {floor.name}
+            </div>
+          </Link>
+        ))}
       </aside>
 
       <section className={styles.roomGrid}>
@@ -79,18 +115,20 @@ export default async function AdminConsole() {
 
           return (
             <div key={room.id} className={cardClass}>
-              <div>
+              <RoomCardInteractive room={room}>
                 <div className={styles.roomHeader}>
                   <span className={styles.roomNumber}>{room.roomNumber}</span>
+                  {room.checkoutStatus === 'OVERDUE' && <span style={{ fontSize: '10px', backgroundColor: '#ff4d4d', padding: '2px 6px', borderRadius: '10px', color: '#fff', fontWeight: 'bold' }}>OVERDUE</span>}
+                  {room.checkoutStatus === 'SOON' && <span style={{ fontSize: '10px', backgroundColor: '#ffcc00', padding: '2px 6px', borderRadius: '10px', color: '#000', fontWeight: 'bold' }}>CHECKOUT SOON</span>}
                 </div>
                 <div className={styles.roomType}>{room.type}</div>
                 {room.guest && <div style={{ marginTop: '5px', fontSize: '14px' }}>{room.guest}</div>}
-              </div>
+              </RoomCardInteractive>
             </div>
           );
         })}
-        <div className={styles.roomCard} style={{ justifyContent: 'center', alignItems: 'center', borderStyle: 'dashed' }}>
-          + Create a room
+        <div style={{ padding: '0', backgroundColor: 'transparent' }}>
+          <AddRoomForm availableFloors={floorsData} />
         </div>
       </section>
 

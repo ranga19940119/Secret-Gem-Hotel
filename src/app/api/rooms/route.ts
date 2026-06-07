@@ -42,6 +42,7 @@ export async function POST(request: Request) {
         pricePerNight: body.pricePerNight,
         description: body.description,
         features: body.features,
+        floorId: body.floorId || null,
       }
     });
     return NextResponse.json(newRoom, { status: 201 });
