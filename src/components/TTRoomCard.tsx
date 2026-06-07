@@ -106,14 +106,20 @@ export default function TTRoomCard({ room, onUpdate }: { room: any, onUpdate: ()
   const handleAction = async (status: string) => {
     if (!activeRes) return;
     try {
-      await fetch(`/api/reservations/${activeRes.id}`, {
+      const res = await fetch(`/api/reservations/${activeRes.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })
       });
+      if (!res.ok) {
+        const data = await res.json();
+        alert('Error: ' + (data.error || 'Failed to update'));
+        return;
+      }
       onUpdate();
     } catch (e) {
       console.error(e);
+      alert('Network Error');
     }
   };
 
@@ -174,11 +180,11 @@ export default function TTRoomCard({ room, onUpdate }: { room: any, onUpdate: ()
         <div ref={menuRef} style={{ position: 'absolute', top: '40px', left: '40px', backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', zIndex: 10, width: '180px', border: '1px solid #e0e0e0', overflow: 'hidden' }}>
           {activeRes ? (
             <>
-              <div onClick={() => { setActiveModal('guestInfo'); setMenuOpen(false); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333', borderBottom: '1px solid #f0f0f0' }}>Guest information</div>
+              <div onClick={(e) => { e.stopPropagation(); setActiveModal('guestInfo'); setMenuOpen(false); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333', borderBottom: '1px solid #f0f0f0' }}>Guest information</div>
               {room.status === 'OCCUPIED' ? (
-                <div onClick={() => { handleAction('CHECKED_OUT'); setMenuOpen(false); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333' }}>Check-out</div>
+                <div onClick={(e) => { e.stopPropagation(); handleAction('CHECKED_OUT'); setMenuOpen(false); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333' }}>Check-out</div>
               ) : (
-                <div onClick={handleOpenCheckIn} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333' }}>Check-in guest</div>
+                <div onClick={(e) => { e.stopPropagation(); handleOpenCheckIn(); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333' }}>Check-in guest</div>
               )}
               <div style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#888' }}>Modify check-out</div>
               <div style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#888' }}>Additional access</div>
