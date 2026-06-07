@@ -45,11 +45,39 @@ export default function TTRoomGrid({ initialRooms, floorsData }: { initialRooms:
 
   return (
     <>
-      <section className={styles.roomGrid}>
-        {filteredRooms.map((room) => (
-          <TTRoomCard key={room.id} room={room} onUpdate={() => window.location.reload()} />
-        ))}
-        <div style={{ padding: '0', backgroundColor: 'transparent' }}>
+      <section className={styles.roomGrid} style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+        {floorsData.map(floor => {
+          const roomsInFloor = filteredRooms.filter(r => r.floorId === floor.id);
+          if (roomsInFloor.length === 0) return null;
+          return (
+            <div key={floor.id}>
+              <h2 style={{ color: '#fff', borderBottom: '1px solid #333', paddingBottom: '10px', marginBottom: '15px', fontFamily: 'Playfair Display, serif' }}>{floor.name}</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+                {roomsInFloor.map((room) => (
+                  <TTRoomCard key={room.id} room={room} onUpdate={() => window.location.reload()} />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Unassigned Rooms */}
+        {(() => {
+          const unassignedRooms = filteredRooms.filter(r => !r.floorId);
+          if (unassignedRooms.length === 0) return null;
+          return (
+            <div>
+              <h2 style={{ color: '#fff', borderBottom: '1px solid #333', paddingBottom: '10px', marginBottom: '15px', fontFamily: 'Playfair Display, serif' }}>Unassigned Rooms</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+                {unassignedRooms.map((room) => (
+                  <TTRoomCard key={room.id} room={room} onUpdate={() => window.location.reload()} />
+                ))}
+              </div>
+            </div>
+          );
+        })()}
+
+        <div style={{ padding: '0', backgroundColor: 'transparent', marginTop: '20px' }}>
           <AddRoomForm availableFloors={floorsData} />
         </div>
       </section>
