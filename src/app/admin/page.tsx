@@ -97,6 +97,13 @@ export default async function AdminConsole({ searchParams }: { searchParams: { f
     <div className={styles.consoleContainer}>
       <aside className={styles.leftSidebar}>
         <AddFloorForm />
+        
+        <Link href="/admin/finance" style={{ display: 'block', textDecoration: 'none', marginBottom: '15px' }}>
+          <div style={{ padding: '12px', backgroundColor: '#059669', color: 'white', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>
+            💰 Finance Dashboard
+          </div>
+        </Link>
+
         <Link href="/admin" style={{ display: 'block', textDecoration: 'none' }}>
           <div style={{ padding: '10px', backgroundColor: !searchParams.floor ? '#007bff' : 'transparent', color: !searchParams.floor ? 'white' : 'var(--color-text-main)', borderRadius: '4px', marginBottom: '5px' }}>
             All Floors

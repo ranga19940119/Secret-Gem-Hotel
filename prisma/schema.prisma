@@ -44,10 +44,11 @@ model Room {
 
 model Reservation {
   id            String   @id @default(cuid())
-  guestName     String
-  guestEmail    String?
-  guestPhone    String?
-  checkIn       DateTime
+  guestName        String
+  guestEmail       String?
+  guestPhone       String?
+  additionalGuests String?  // JSON array of other guests
+  checkIn          DateTime
   checkOut      DateTime
   status        String   @default("PENDING") // PENDING, CONFIRMED, CHECKED_IN, CHECKED_OUT, CANCELLED
   source        String   @default("MANUAL") // MANUAL, WEBSITE, BOOKING.COM, AGODA
@@ -58,6 +59,18 @@ model Reservation {
 
   roomId        String
   room          Room     @relation(fields: [roomId], references: [id])
+  payments      Payment[]
+}
+
+model Payment {
+  id            String      @id @default(cuid())
+  amount        Float
+  method        String      @default("CASH") // CASH, CARD, TRANSFER
+  description   String?
+  date          DateTime    @default(now())
+  
+  reservationId String
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
 }
 
 model Content {
