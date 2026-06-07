@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = await params;
+    const resolvedParams = await context.params;
+    const { id } = resolvedParams;
 
     // Delete associated reservations first
     await prisma.reservation.deleteMany({

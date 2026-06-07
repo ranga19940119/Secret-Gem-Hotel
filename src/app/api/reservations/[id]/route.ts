@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export async function PUT(request: Request, context: any) {
+export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
     const { status } = await request.json();
-    const reservationId = context.params.id;
+    const resolvedParams = await context.params;
+    const reservationId = resolvedParams.id;
 
     if (!['PENDING', 'CONFIRMED', 'CHECKED_IN', 'CHECKED_OUT', 'CANCELLED'].includes(status)) {
       return NextResponse.json({ error: 'Invalid status' }, { status: 400 });

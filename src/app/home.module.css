@@ -1,0 +1,229 @@
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  filter: brightness(0.6);
+  animation: slowZoom 20s infinite alternate;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+  z-index: -1;
+}
+
+.heroContent {
+  animation: fadeIn 2s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-size: 5rem;
+  font-weight: 300;
+  letter-spacing: 8px;
+  margin-bottom: 20px;
+  font-family: 'Playfair Display', serif;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  letter-spacing: 4px;
+  font-weight: 300;
+  margin-bottom: 40px;
+  color: #d4af37; /* Gold accent */
+  text-transform: uppercase;
+}
+
+.bookBtn {
+  background-color: transparent;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: 15px 40px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.bookBtn:hover {
+  background-color: #d4af37;
+  color: #111;
+}
+
+/* Sections */
+.section {
+  padding: 100px 20px;
+  background-color: #0a0a0a;
+  color: white;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin-bottom: 60px;
+  font-family: 'Playfair Display', serif;
+  color: #d4af37;
+}
+
+/* Rooms */
+.roomsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.roomCard {
+  background-color: #111;
+  border: 1px solid #222;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.roomCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  border-color: #333;
+}
+
+.roomImageContainer {
+  height: 250px;
+  overflow: hidden;
+}
+
+.roomImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.roomCard:hover .roomImage {
+  transform: scale(1.05);
+}
+
+.roomInfo {
+  padding: 30px;
+}
+
+.roomName {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+}
+
+.roomPrice {
+  color: #d4af37;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.roomFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.featureTag {
+  background-color: #222;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #aaa;
+  border: 1px solid #333;
+}
+
+.reserveBtn {
+  width: 100%;
+  padding: 12px;
+  background-color: #d4af37;
+  color: #111;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color 0.3s;
+}
+
+.reserveBtn:hover {
+  background-color: #f1c40f;
+}
+
+/* Gallery */
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.galleryItem {
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 4px;
+}
+
+.galleryImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.5s ease;
+  filter: brightness(0.8) grayscale(20%);
+}
+
+.galleryItem:hover .galleryImg {
+  transform: scale(1.1);
+  filter: brightness(1) grayscale(0%);
+}
+
+/* Footer */
+.footer {
+  background-color: #050505;
+  padding: 60px 20px;
+  text-align: center;
+  color: #777;
+  border-top: 1px solid #222;
+}
