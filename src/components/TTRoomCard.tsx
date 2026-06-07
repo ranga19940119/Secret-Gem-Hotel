@@ -42,17 +42,22 @@ export default function TTRoomCard({ room, onUpdate }: { room: any, onUpdate: ()
   if (room.status === 'OCCUPIED') {
     bgColor = '#0078FF'; // TT Hotel Blue
     textColor = '#ffffff';
-    if (room.checkoutStatus === 'SOON') {
-      cornerTag = <div style={{ position: 'absolute', top: 0, right: 0, width: '30px', height: '30px', backgroundColor: '#F5A623', borderBottomLeftRadius: '30px', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start', padding: '4px' }}><span style={{fontSize: '10px', color: '#fff'}}>⏳</span></div>;
-    } else if (room.checkoutStatus === 'OVERDUE') {
-      cornerTag = <div style={{ position: 'absolute', top: 0, right: 0, width: '30px', height: '30px', backgroundColor: '#E02020', borderBottomLeftRadius: '30px', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start', padding: '4px' }}><span style={{fontSize: '10px', color: '#fff'}}>↪</span></div>;
-    }
   } else if (room.status === 'CLEANING_REQUIRED') {
     bgColor = '#FFE9D2';
     textColor = '#D35400';
+  } else if (room.status === 'RESERVED') {
+    bgColor = '#ffffff';
+    textColor = '#000000';
   } else if (room.status === 'UNDER_MAINTENANCE') {
     bgColor = '#F2DEDE';
     textColor = '#A94442';
+  }
+
+  // Corner tags
+  if (room.checkoutStatus === 'SOON') {
+    cornerTag = <div style={{ position: 'absolute', top: 0, right: 0, width: '30px', height: '30px', backgroundColor: '#F5A623', borderBottomLeftRadius: '30px', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start', padding: '4px' }}><span style={{fontSize: '10px', color: '#fff'}}>⏳</span></div>;
+  } else if (room.checkoutStatus === 'OVERDUE') {
+    cornerTag = <div style={{ position: 'absolute', top: 0, right: 0, width: '30px', height: '30px', backgroundColor: '#E02020', borderBottomLeftRadius: '30px', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start', padding: '4px' }}><span style={{fontSize: '10px', color: '#fff'}}>↪</span></div>;
   }
 
   return (
@@ -76,7 +81,8 @@ export default function TTRoomCard({ room, onUpdate }: { room: any, onUpdate: ()
         
         <div style={{ display: 'flex', gap: '5px' }}>
           {room.status === 'CLEANING_REQUIRED' && <span style={{ backgroundColor: '#fff', padding: '2px 4px', borderRadius: '4px', fontSize: '12px' }}>🧹</span>}
-          {room.status === 'OCCUPIED' && <span style={{ backgroundColor: '#fff', padding: '2px 4px', borderRadius: '4px', fontSize: '12px' }}>🚪</span>}
+          {room.status === 'OCCUPIED' && <span style={{ backgroundColor: '#fff', padding: '2px 4px', borderRadius: '4px', fontSize: '12px', color: '#0078FF' }}>🚪</span>}
+          {room.status === 'RESERVED' && <span style={{ backgroundColor: '#F5A623', padding: '2px 4px', borderRadius: '4px', fontSize: '12px', color: '#fff' }}>📋</span>}
         </div>
       </div>
 
@@ -86,7 +92,7 @@ export default function TTRoomCard({ room, onUpdate }: { room: any, onUpdate: ()
           {activeRes ? (
             <>
               <div onClick={() => { setActiveModal('guestInfo'); setMenuOpen(false); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333', borderBottom: '1px solid #f0f0f0' }}>Guest information</div>
-              {activeRes.status === 'CHECKED_IN' ? (
+              {room.status === 'OCCUPIED' ? (
                 <div onClick={() => { handleAction('CHECKED_OUT'); setMenuOpen(false); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333' }}>Check-out</div>
               ) : (
                 <div onClick={() => { handleAction('CHECKED_IN'); setMenuOpen(false); }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333' }}>Check-in guest</div>
@@ -104,7 +110,13 @@ export default function TTRoomCard({ room, onUpdate }: { room: any, onUpdate: ()
                   onUpdate();
                 }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#333' }}>Mark as clean</div>
               )}
-              <div style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#888' }}>Records</div>
+              <div style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#888', borderBottom: '1px solid #f0f0f0' }}>Records</div>
+              <div onClick={async () => {
+                if (confirm('Are you sure you want to delete this room?')) {
+                  await fetch(`/api/rooms/${room.id}`, { method: 'DELETE' });
+                  onUpdate();
+                }
+              }} style={{ padding: '10px 15px', fontSize: '13px', cursor: 'pointer', color: '#E02020' }}>Delete room</div>
             </>
           )}
         </div>

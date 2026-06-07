@@ -71,10 +71,24 @@ export default async function AdminConsole({ searchParams }: { searchParams: { f
       }
     }
 
+    let currentStatus = room.status;
+    let guestName = null;
+
+    if (activeRes) {
+      guestName = activeRes.guestName;
+      if (activeRes.status === 'CHECKED_IN') {
+        currentStatus = 'OCCUPIED';
+      } else if (activeRes.status === 'CONFIRMED') {
+        currentStatus = 'RESERVED';
+      } else if (activeRes.status === 'CHECKED_OUT') {
+        currentStatus = 'CLEANING_REQUIRED';
+      }
+    }
+
     return {
       ...room,
-      status: activeRes ? 'OCCUPIED' : room.status,
-      guest: activeRes ? activeRes.guestName : null,
+      status: currentStatus,
+      guest: guestName,
       checkoutStatus
     };
   });

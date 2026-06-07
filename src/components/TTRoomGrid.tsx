@@ -130,20 +130,8 @@ export default function TTRoomGrid({ initialRooms, floorsData }: { initialRooms:
 
             <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#555' }}>
               <input type="checkbox" style={{ width: '16px', height: '16px' }} />
-              <span style={{ backgroundColor: '#F2DEDE', padding: '4px', borderRadius: '4px', display: 'flex', color: '#E02020', fontSize: '12px' }}>🔋</span>
-              Low battery
-            </label>
-
-            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#555' }}>
-              <input type="checkbox" style={{ width: '16px', height: '16px' }} />
               <span style={{ backgroundColor: '#D9534F', padding: '12px', borderRadius: '4px' }}></span>
               Under maintenance
-            </label>
-
-            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '14px', color: '#555' }}>
-              <input type="checkbox" style={{ width: '16px', height: '16px' }} />
-              <span style={{ backgroundColor: '#F2DEDE', padding: '4px', borderRadius: '4px', display: 'flex', color: '#E02020', fontSize: '12px' }}>🔒</span>
-              No lock found
             </label>
           </div>
         </div>
