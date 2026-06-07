@@ -6,7 +6,7 @@ import AddFloorForm from '@/components/AddFloorForm';
 import AddRoomForm from '@/components/AddRoomForm';
 import RoomCardInteractive from '@/components/RoomCardInteractive';
 import TTRoomGrid from '@/components/TTRoomGrid';
-import DeleteFloorButton from '@/components/DeleteFloorButton';
+import FloorList from '@/components/FloorList';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -105,19 +105,7 @@ export default async function AdminConsole({ searchParams }: { searchParams: { f
           </div>
         </Link>
 
-        <a href="/admin" style={{ display: 'block', textDecoration: 'none' }}>
-          <div style={{ padding: '10px', backgroundColor: !searchParams.floor ? '#007bff' : 'transparent', color: !searchParams.floor ? 'white' : 'var(--color-text-main)', borderRadius: '4px', marginBottom: '5px' }}>
-            All Floors
-          </div>
-        </a>
-        {floorsData.map(floor => (
-          <a key={floor.id} href={`/admin?floor=${floor.id}`} style={{ display: 'block', textDecoration: 'none' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', cursor: 'pointer', borderBottom: '1px solid var(--color-border)', backgroundColor: searchParams.floor === floor.id ? 'rgba(212,175,55,0.2)' : 'transparent', color: searchParams.floor === floor.id ? 'var(--color-gold)' : 'inherit' }}>
-              <span>{floor.name}</span>
-              <DeleteFloorButton floorId={floor.id} />
-            </div>
-          </a>
-        ))}
+        <FloorList floors={floorsData} currentFloorId={searchParams.floor} />
       </aside>
 
       <TTRoomGrid initialRooms={rooms} floorsData={floorsData} />
