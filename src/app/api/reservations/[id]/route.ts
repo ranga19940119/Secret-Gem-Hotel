@@ -30,7 +30,8 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     });
 
     return NextResponse.json(updatedReservation);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update reservation' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Reservation API Error:', error);
+    return NextResponse.json({ error: error.message || 'Failed to update reservation' }, { status: 500 });
   }
 }
